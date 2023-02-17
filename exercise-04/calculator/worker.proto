@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package workerPackage;
+
+service Worker {
+    rpc operation(workerOperation) returns (response);
+}
+
+message workerOperation {
+    int32 paramOne = 1;
+    string operation = 3;
+    int32 paramTwo = 2;
+}
+
+message response {
+    string response = 1;
+}
