@@ -1,0 +1,36 @@
+GET localhost:3000/getTeamByID
+
+Body {
+    "ID": "d70a4704-32fc-4109-8322-9dbd2c25f311"
+}
+
+LIST localhost:3000/listTeams
+
+POST localhost:3000/createTeam
+
+Body {
+  {
+     "fullTeamName": "Scuderia AlphaTauri",
+     "powerUnit": "Honda RBPT",
+     "base": "Faenza, Italy",
+     "chassis": "AT04"
+  }
+}
+
+PUT localhost:3000/updateTeam
+
+Body {
+  {
+    "ID": "d70a4704-32fc-4109-8322-9dbd2c25f311",
+    "fullTeamName": "Scuderia AlphaTauri",
+    "powerUnit": "Honda RBPT",
+    "base": "Faenza, Italy",
+    "chassis": "AT04"
+  }
+}
+
+DELETE localhost:3000/deleteTeam
+
+Body {
+  "ID": "d70a4704-32fc-4109-8322-9dbd2c25f311"
+}
