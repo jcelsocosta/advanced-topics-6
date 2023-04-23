@@ -1,44 +1,23 @@
 import { Subject, from, interval } from 'rxjs'
-import { switchMap, take, takeUntil } from 'rxjs/operators'
+import { switchMap, takeUntil } from 'rxjs/operators'
 
-let id = Math.floor(Math.random() * 100) + 1
-let index = 1
-const subject = new Subject()
+const subject_request = new Subject()
 
-const seconds = interval(1000)
+subject_request.subscribe({
+    next: (v) => console.log(v)
+})
+
+const seconds = interval(3000)
     .pipe(
-        takeUntil(subject),
-        switchMap(() => from(fetch(`https://dummyjson.com/products/${id}`)
+        switchMap(() => from(fetch(`https://dummyjson.com/products/${Math.floor(Math.random() * 100) + 1}`)
             .then((response => {
                 return response.json()
             }))
-            .finally(() => {
-                const eventFinish = Math.floor(Math.random() * 100) + 1
-                id = eventFinish
-                console.log('index', index)
-                if (index === 5) {
-                    console.log('chegou aq')
-                    subject.complete()
-                }
-                index++
-            })
-        ))
+        )),
+        takeUntil(subject_request)
     )
-        
-    .subscribe(console.log)
+    .subscribe(subject_request)
 
-    /*
-    switchMap(() => from(fetch(`https://dummyjson.com/products/${id}`)
-            .then((response => {
-                return response.json()
-            }))
-            .finally(() => {
-                const eventFinish = Math.floor(Math.random() * 100) + 1
-                console.log('index', index)
-                if (index === 5) {
-                    subject.complete()
-                }
-                index++
-            })
-        )))
-    */
+setTimeout(() => {
+    subject_request.complete()
+}, 15000)
