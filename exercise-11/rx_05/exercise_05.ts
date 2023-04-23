@@ -3,8 +3,20 @@ import { switchMap, takeUntil } from 'rxjs/operators'
 
 const subject_request = new Subject()
 
+let index = 1
+let priceMean = 0
+
 subject_request.subscribe({
-    next: (v) => console.log(v)
+    next: (v: any) => {
+        console.log(v)
+        priceMean = priceMean + v.price
+        if (index === 3) {
+            console.log(`Média do preço dos últimos 3 produtos: ${(priceMean/3).toFixed(2)}`)
+            index = 1
+            priceMean = 0
+        }
+        index++
+    }
 })
 
 const seconds = interval(10000)
@@ -13,11 +25,6 @@ const seconds = interval(10000)
             .then((response => {
                 return response.json()
             }))
-        )),
-        takeUntil(subject_request)
+        ))
     )
     .subscribe(subject_request)
-
-setTimeout(() => {
-    subject_request.complete()
-}, 15000)
